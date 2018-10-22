@@ -18,6 +18,14 @@
                 "description": "Naming prefix for each new resource created. 3-char min, 8-char max, uppercase alphanumeric."
             }
         },
+    "CloudWitnessStorageAccountName": {
+            "minLength": 3,
+            "maxLength": 9,
+            "type": "String",
+            "metadata": {
+                "description": "Naming prefix for each new resource created. 3-char min, 8-char max, uppercase alphanumeric."
+            }
+        },
     "domainName": {
       "type": "string",
       "metadata": {
@@ -117,7 +125,7 @@
   },
   "variables": {
     "apiVersionStorage": "2016-01-01",
-    "witnessStorageName": "[concat(parameters('namePrefix'),uniqueString(resourceGroup().id),'CW')]",
+    "witnessStorageName": "[parameters('CloudWitnessStorageAccountName'),uniqueString(resourceGroup().id),'CW')]",
     "witnessStorageType": "Standard_LRS",
     "vmNamePrefix": "[concat(parameters('namePrefix'),'-FCI-')]",
     "vmAvailabilitySetName": "[concat(variables('vmNamePrefix'),'as')]",
