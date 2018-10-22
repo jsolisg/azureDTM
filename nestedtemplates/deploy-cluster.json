@@ -12,7 +12,7 @@
     },
     "LoadBalancerName": {
             "minLength": 3,
-            "maxLength": 8,
+            "maxLength": 9,
             "type": "String",
             "metadata": {
                 "description": "Naming prefix for each new resource created. 3-char min, 8-char max, uppercase alphanumeric."
