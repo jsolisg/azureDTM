@@ -10,6 +10,14 @@
         "description": "Naming prefix for each new resource created. 3-char min, 8-char max, lowercase alphanumeric"
       }
     },
+    "LoadBalancerName": {
+            "minLength": 3,
+            "maxLength": 8,
+            "type": "String",
+            "metadata": {
+                "description": "Naming prefix for each new resource created. 3-char min, 8-char max, uppercase alphanumeric."
+            }
+        },
     "domainName": {
       "type": "string",
       "metadata": {
@@ -120,7 +128,7 @@
     "sfciPrepFunction": "PrepSFCI.ps1\\PrepSFCI",
     "sfciConfigModulesURL": "[concat(parameters('_artifactsLocation'),'/dsc/config-sfci.ps1.zip',parameters('_artifactsLocationSasToken'))]",
     "sfciConfigFunction": "ConfigSFCI.ps1\\ConfigSFCI",
-    "ilbName": "[concat(parameters('namePrefix'),'-ILB')]",
+    "ilbName": "[concat(parameters('LoadBalancerName'),'-ILB')]",
     "ilbID": "[resourceId('Microsoft.Network/loadBalancers',variables('ilbName'))]",
     "ilbFE": "[concat(parameters('namePrefix'),'-ILB-FE')]",
     "ilbBE": "[concat(parameters('namePrefix'),'-ILB-BE')]",
