@@ -125,7 +125,7 @@
   },
   "variables": {
     "apiVersionStorage": "2016-01-01",
-    "witnessStorageName": "[concat(parameters('CloudWitnessStorageAccountName'),uniqueString(resourceGroup().id),'CW')],
+    "witnessStorageName": "[parameters('CloudWitnessStorageAccountName')]",
     "witnessStorageType": "Standard_LRS",
     "vmNamePrefix": "[concat(parameters('namePrefix'),'-FCI-')]",
     "vmAvailabilitySetName": "[concat(variables('vmNamePrefix'),'as')]",
