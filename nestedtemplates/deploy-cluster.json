@@ -20,10 +20,10 @@
         },
     "CloudWitnessStorageAccountName": {
             "minLength": 3,
-            "maxLength": 9,
+            "maxLength": 24,
             "type": "String",
             "metadata": {
-                "description": "Naming prefix for each new resource created. 3-char min, 8-char max, uppercase alphanumeric."
+                "description": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers."
             }
         },
     "domainName": {
