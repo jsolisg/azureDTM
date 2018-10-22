@@ -109,24 +109,24 @@
   },
   "variables": {
     "apiVersionStorage": "2016-01-01",
-    "witnessStorageName": "[concat(parameters('namePrefix'),uniqueString(resourceGroup().id),'cw')]",
+    "witnessStorageName": "[concat(parameters('namePrefix'),uniqueString(resourceGroup().id),'CW')]",
     "witnessStorageType": "Standard_LRS",
-    "vmNamePrefix": "[concat(parameters('namePrefix'),'-fci-')]",
+    "vmNamePrefix": "[concat(parameters('namePrefix'),'-FCI-')]",
     "vmAvailabilitySetName": "[concat(variables('vmNamePrefix'),'as')]",
-    "clusterName": "[concat(variables('vmNamePrefix'),'c')]",
-    "sqlClusterName": "[concat(variables('vmNamePrefix'),'sql')]",
+    "clusterName": "[concat(variables('vmNamePrefix'),'C')]",
+    "sqlClusterName": "[concat(variables('vmNamePrefix'),'SQL')]",
     "vmLoopTemplateURL": "[concat(parameters('_artifactsLocation'),'/nestedtemplates/newVM.json',parameters('_artifactsLocationSasToken'))]",
     "sfciPrepModulesURL": "[concat(parameters('_artifactsLocation'),'/dsc/prep-sfci.ps1.zip',parameters('_artifactsLocationSasToken'))]",
     "sfciPrepFunction": "PrepSFCI.ps1\\PrepSFCI",
     "sfciConfigModulesURL": "[concat(parameters('_artifactsLocation'),'/dsc/config-sfci.ps1.zip',parameters('_artifactsLocationSasToken'))]",
     "sfciConfigFunction": "ConfigSFCI.ps1\\ConfigSFCI",
-    "ilbName": "[concat(parameters('namePrefix'),'-ilb')]",
+    "ilbName": "[concat(parameters('namePrefix'),'-ILB')]",
     "ilbID": "[resourceId('Microsoft.Network/loadBalancers',variables('ilbName'))]",
-    "ilbFE": "[concat(parameters('namePrefix'),'-ilb-fe')]",
-    "ilbBE": "[concat(parameters('namePrefix'),'-ilb-be')]",
+    "ilbFE": "[concat(parameters('namePrefix'),'-ILB-FE')]",
+    "ilbBE": "[concat(parameters('namePrefix'),'-ILB-BE')]",
     "ilbFEConfigID1": "[concat(variables('ilbID'),'/frontendIPConfigurations/',variables('ilbFE'))]",
     "ilbBEAddressPoolID": "[concat(variables('ilbID'),'/backendAddressPools/',variables('ilbBE'))]",
-    "ilbProbe1": "[concat(parameters('namePrefix'),'ilbp1')]",
+    "ilbProbe1": "[concat(parameters('namePrefix'),'ILBP1')]",
     "ilbProbeID1": "[concat(variables('ilbID'),'/probes/',variables('ilbProbe1'))]"
   },
   "resources": [
@@ -181,7 +181,7 @@
         ],
         "loadBalancingRules": [
           {
-            "name": "sql-1433",
+            "name": "SQL-1433",
             "properties": {
               "frontendIPConfiguration": {
                 "id": "[variables('ilbFEConfigID1')]"
@@ -199,7 +199,7 @@
             }
           },
           {
-            "name": "sql-445",
+            "name": "SQL-445",
             "properties": {
               "frontendIPConfiguration": {
                 "id": "[variables('ilbFEConfigID1')]"
@@ -232,7 +232,7 @@
       "comments": "The load balancer to enable communication with the SQL cluster resource"
     },
     {
-      "name": "[concat(variables('vmNamePrefix'), copyindex(), '-nic')]",
+      "name": "[concat(variables('vmNamePrefix'), copyindex(), '-NIC')]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2017-10-01",
