@@ -128,7 +128,7 @@
     "sfciPrepFunction": "PrepSFCI.ps1\\PrepSFCI",
     "sfciConfigModulesURL": "[concat(parameters('_artifactsLocation'),'/dsc/config-sfci.ps1.zip',parameters('_artifactsLocationSasToken'))]",
     "sfciConfigFunction": "ConfigSFCI.ps1\\ConfigSFCI",
-    "ilbName": "[concat(parameters('LoadBalancerName'),'-ILB')]",
+    "ilbName": "[parameters('LoadBalancerName')]",
     "ilbID": "[resourceId('Microsoft.Network/loadBalancers',variables('ilbName'))]",
     "ilbFE": "[concat(parameters('namePrefix'),'-ILB-FE')]",
     "ilbBE": "[concat(parameters('namePrefix'),'-ILB-BE')]",
