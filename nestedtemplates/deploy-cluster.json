@@ -1,4 +1,4 @@
-﻿{
+﻿ {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
@@ -10,22 +10,38 @@
         "description": "Naming prefix for each new resource created. 3-char min, 8-char max, lowercase alphanumeric"
       }
     },
+    "vmnamePrefix1": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 8,
+      "metadata": {
+        "description": "Naming prefix for each new resource created. 3-char min, 8-char max, lowercase alphanumeric"
+      }
+    },
+    "vmnamePrefix2": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 8,
+      "metadata": {
+        "description": "Naming prefix for each new resource created. 3-char min, 8-char max, lowercase alphanumeric"
+      }
+    },
     "LoadBalancerName": {
-            "minLength": 3,
-            "maxLength": 9,
-            "type": "String",
-            "metadata": {
-                "description": "Naming prefix for each new resource created. 3-char min, 8-char max, uppercase alphanumeric."
-            }
-        },
+      "minLength": 3,
+      "maxLength": 9,
+      "type": "String",
+      "metadata": {
+        "description": "Naming prefix for each new resource created. 3-char min, 8-char max, uppercase alphanumeric."
+      }
+    },
     "CloudWitnessStorageAccountName": {
-            "minLength": 3,
-            "maxLength": 24,
-            "type": "String",
-            "metadata": {
-                "description": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers."
-            }
-        },
+      "minLength": 3,
+      "maxLength": 24,
+      "type": "String",
+      "metadata": {
+        "description": "The name must be unique across all existing storage account names in Azure. It must be 3 to 24 characters long, and can contain only lowercase letters and numbers."
+      }
+    },
     "domainName": {
       "type": "string",
       "metadata": {
@@ -127,10 +143,11 @@
     "apiVersionStorage": "2016-01-01",
     "witnessStorageName": "[parameters('CloudWitnessStorageAccountName')]",
     "witnessStorageType": "Standard_LRS",
-    "vmNamePrefix": "[concat(parameters('namePrefix'),'-FCI-')]",
-    "vmAvailabilitySetName": "[concat(variables('vmNamePrefix'),'as')]",
-    "clusterName": "[concat(variables('vmNamePrefix'),'SO')]",
-    "sqlClusterName": "[concat(variables('vmNamePrefix'),'SQL01')]",
+    "vmNamePrefix1": "[concat(parameters('vmNamePrefix1'),'-FCI')]",
+    "vmNamePrefix2": "[concat(parameters('vmNamePrefix2'),'-FCI')]",
+    "vmAvailabilitySetName": "[concat(parameters('namePrefix'),'-as')]",
+    "clusterName": "[concat(parameters('namePrefix'),'-SO')]",
+    "sqlClusterName": "[concat(parameters('namePrefix'),'-SQL01')]",
     "vmLoopTemplateURL": "[concat(parameters('_artifactsLocation'),'/nestedtemplates/newVM.json',parameters('_artifactsLocationSasToken'))]",
     "sfciPrepModulesURL": "[concat(parameters('_artifactsLocation'),'/dsc/prep-sfci.ps1.zip',parameters('_artifactsLocationSasToken'))]",
     "sfciPrepFunction": "PrepSFCI.ps1\\PrepSFCI",
@@ -248,7 +265,7 @@
       "comments": "The load balancer to enable communication with the SQL cluster resource"
     },
     {
-      "name": "[concat(variables('vmNamePrefix'), copyindex(), '-NIC')]",
+      "name": "[if(equals(copyIndex(),0),concat(variables('vmNamePrefix1'), '-NIC'),concat(variables('vmNamePrefix2'), '-NIC'))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2017-10-01",
@@ -286,7 +303,7 @@
         "name": "virtualMachineLoop",
         "count": "[parameters('vmCount')]"
       },
-      "name": "[concat(variables('vmNamePrefix'),copyindex(),'-newVM')]",
+      "name": "[if(equals(copyIndex(),0),concat(variables('vmNamePrefix1'), '-newVM'),concat(variables('vmNamePrefix2'), '-newVM'))]",
       "dependsOn": [
         "nicLoop",
         "[resourceId('Microsoft.Compute/availabilitySets', variables('vmAvailabilitySetName'))]"
@@ -298,7 +315,7 @@
         },
         "parameters": {
           "vmName": {
-            "value": "[concat(variables('vmNamePrefix'), copyindex())]"
+            "value": "[if(equals(copyIndex(),0),variables('vmNamePrefix1'),variables('vmNamePrefix2'))]"
           },
           "vmAvailabilitySetName": {
             "value": "[variables('vmAvailabilitySetName')]"
@@ -336,7 +353,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmNamePrefix'),copyindex(1),'/sfciPrep')]",
+      "name": "[concat(variables('vmNamePrefix2'),'/sfciPrep')]",
       "apiVersion": "2017-12-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -377,7 +394,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmNamePrefix'),'0/sfciConfig')]",
+      "name": "[concat(variables('vmNamePrefix1'),'0/sfciConfig')]",
       "apiVersion": "2017-12-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -398,7 +415,7 @@
             "clusterName": "[variables('clusterName')]",
             "sqlClusterName": "[variables('sqlClusterName')]",
             "clusterIP": "[parameters('clusterIP')]",
-            "vmNamePrefix": "[variables('vmNamePrefix')]",
+            "vmNamePrefix": "[variables('vmNamePrefix1')]",
             "vmCount": "[parameters('vmCount')]",
             "vmDiskSize": "[parameters('vmDiskSize')]",
             "witnessStorageName": "[variables('witnessStorageName')]",
