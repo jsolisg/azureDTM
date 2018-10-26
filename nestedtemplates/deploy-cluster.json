@@ -146,7 +146,7 @@
     "vmNamePrefix1": "[concat(parameters('vmNamePrefix1'),'-FCI')]",
     "vmNamePrefix2": "[concat(parameters('vmNamePrefix2'),'-FCI')]",
     "vmAvailabilitySetName": "[concat(parameters('namePrefix'),'-as')]",
-    "clusterName": "[concat(parameters('namePrefix'),'-SO')]",
+    "clusterName": "[concat(parameters('namePrefix'),'-CNO')]",
     "sqlClusterName": "[concat(parameters('namePrefix'),'-SQL01')]",
     "vmLoopTemplateURL": "[concat(parameters('_artifactsLocation'),'/nestedtemplates/newVM.json',parameters('_artifactsLocationSasToken'))]",
     "sfciPrepModulesURL": "[concat(parameters('_artifactsLocation'),'/dsc/prep-sfci.ps1.zip',parameters('_artifactsLocationSasToken'))]",
