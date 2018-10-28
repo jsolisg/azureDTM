@@ -42,7 +42,7 @@ configuration ConfigSFCI
 
         [String]$DomainNetbiosName=(Get-NetBIOSName -DomainName $DomainName),
 
-        [Int]$RetryCount=20,
+        [Int]$RetryCount=21,
         [Int]$RetryIntervalSec=30,
         [string]$driveLetter = 'S',
         [Int]$probePort=37000 
