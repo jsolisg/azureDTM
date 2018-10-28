@@ -20,7 +20,10 @@ configuration ConfigSFCI
         [String]$SQLClusterName,
 
         [Parameter(Mandatory)]
-        [String]$vmNamePrefix,
+        [String]$vmNamePrefix1,
+
+	[Parameter(Mandatory)]
+        [String]$vmNamePrefix2,
 
         [Parameter(Mandatory)]
         [Int]$vmCount,
@@ -56,10 +59,9 @@ configuration ConfigSFCI
     [System.Management.Automation.PSCredential]$ServiceFQDNCreds = New-Object System.Management.Automation.PSCredential ("${DomainName}\$($svcCreds.UserName)", $svcCreds.Password)
     
     [System.Collections.ArrayList]$Nodes=@()
-    For ($count=0; $count -lt $vmCount; $count++) {
-        $Nodes.Add($vmNamePrefix + $Count.ToString())
-    }
-
+     $Nodes.Add($vmNamePrefix1)
+     $Nodes.Add($vmNamePrefix2)
+    
     Node localhost
     {
 
