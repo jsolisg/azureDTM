@@ -143,8 +143,10 @@
     "apiVersionStorage": "2016-01-01",
     "witnessStorageName": "[parameters('CloudWitnessStorageAccountName')]",
     "witnessStorageType": "Standard_LRS",
+    "vmNamePrefix1": "[parameters('vmNamePrefix1')]",
+    "vmNamePrefix2": "[parameters('vmNamePrefix2')]",
     "vmAvailabilitySetName": "[concat(parameters('namePrefix'),'-as')]",
-    "clusterName": "[concat(parameters('namePrefix'),'-CNO')]",
+    "clusterName": "[concat(parameters('namePrefix'),'-SO')]",
     "sqlClusterName": "[concat(parameters('namePrefix'),'-SQL01')]",
     "vmLoopTemplateURL": "[concat(parameters('_artifactsLocation'),'/nestedtemplates/newVM.json',parameters('_artifactsLocationSasToken'))]",
     "sfciPrepModulesURL": "[concat(parameters('_artifactsLocation'),'/dsc/prep-sfci.ps1.zip',parameters('_artifactsLocationSasToken'))]",
@@ -263,7 +265,7 @@
       "comments": "The load balancer to enable communication with the SQL cluster resource"
     },
     {
-      "name": "[if(equals(copyIndex(),0),concat(parameters('vmNamePrefix1'), '-NIC'),concat(parameters('vmNamePrefix2'), '-NIC'))]",
+      "name": "[if(equals(copyIndex(),0),concat(variables('vmNamePrefix1'), '-NIC'),concat(variables('vmNamePrefix2'), '-NIC'))]",
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[resourceGroup().location]",
       "apiVersion": "2017-10-01",
@@ -301,7 +303,7 @@
         "name": "virtualMachineLoop",
         "count": "[parameters('vmCount')]"
       },
-      "name": "[if(equals(copyIndex(),0),concat(parameters('vmNamePrefix1'), '-newVM'),concat(parameters('vmNamePrefix2'), '-newVM'))]",
+      "name": "[if(equals(copyIndex(),0),concat(variables('vmNamePrefix1'), '-newVM'),concat(variables('vmNamePrefix2'), '-newVM'))]",
       "dependsOn": [
         "nicLoop",
         "[resourceId('Microsoft.Compute/availabilitySets', variables('vmAvailabilitySetName'))]"
@@ -313,7 +315,7 @@
         },
         "parameters": {
           "vmName": {
-            "value": "[if(equals(copyIndex(),0),parameters('vmNamePrefix1'),parameters('vmNamePrefix2'))]"
+            "value": "[if(equals(copyIndex(),0),variables('vmNamePrefix1'),variables('vmNamePrefix2'))]"
           },
           "vmAvailabilitySetName": {
             "value": "[variables('vmAvailabilitySetName')]"
@@ -351,7 +353,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('vmNamePrefix2'),'/sfciPrep')]",
+      "name": "[concat(variables('vmNamePrefix2'),'/sfciPrep')]",
       "apiVersion": "2017-12-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -392,7 +394,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('vmNamePrefix1'),'/sfciConfig')]",
+      "name": "[concat(variables('vmNamePrefix1'),'/sfciConfig')]",
       "apiVersion": "2017-12-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
@@ -413,7 +415,8 @@
             "clusterName": "[variables('clusterName')]",
             "sqlClusterName": "[variables('sqlClusterName')]",
             "clusterIP": "[parameters('clusterIP')]",
-            "vmNamePrefix": "[parameters('vmNamePrefix1')]",
+            "vmNamePrefix1": "[variables('vmNamePrefix1')]",
+            "vmNamePrefix2": "[variables('vmNamePrefix2')]",
             "vmCount": "[parameters('vmCount')]",
             "vmDiskSize": "[parameters('vmDiskSize')]",
             "witnessStorageName": "[variables('witnessStorageName')]",
